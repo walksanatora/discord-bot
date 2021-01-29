@@ -77,7 +77,9 @@ async def on_message(message):
 #            await player.start()
 #            print('never gonna give you up')
         elif command[0] == PREFIX + "search":
-            channel = GUILD.get_channel(command[1])
+            print(f'searching {command[1]} for messages by <@{command[2]}>')
+            channel = message.guild.get_channel(command[1])
+            print(channel)
             messages = await channel.history(limit=None).flatten()
             for message in messages:
                 print(f'{message.author.id}{message.id}')

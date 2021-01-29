@@ -80,7 +80,7 @@ async def on_message(message):
         elif command[0] == PREFIX + "search":
             print(f'searching {command[1]} for messages by <@{command[2]}>')
             channel = message.guild.get_channel(int(command[1]))
-            messages = await channel.history(limit=None).flatten()
+            messages = await channel.history(limit=100).flatten()
             print(f'len messages {len(messages)}')
             for msgs in messages:
                 print(f'message author id is {msgs.author.id} it needs to be {int(command[2])} ') 

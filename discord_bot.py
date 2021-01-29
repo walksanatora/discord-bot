@@ -48,6 +48,7 @@ async def on_message(message):
             embed.add_field(name='?',value=f'use {PREFIX}? to get help',inline=False)
             embed.add_field(name='disable',value=f'use {PREFIX}disable to disconnect the bot and turn it off',inline=False)
             embed.add_field(name='repeat [text to say]',value=f'use {PREFIX}repeat to have the bot say stuff',inline=False)
+            embed.add_field(name='search',value=f'use {PREFIX}search(channel id, user id) to search entire channel for messages by specified user id',inline=False)
             await message.channel.send(embed=embed)
         elif command[0] == PREFIX + 'raise-exception': #cause an intentional error
             print('exception manually raised')
@@ -63,18 +64,25 @@ async def on_message(message):
             command.pop(0)
             command = space.join(command)
             await message.channel.send(command)
-        elif command[0] == PREFIX + 'audio':
-            print('rick rolling')
-            user=message.author
-            print('user obtained')
-            voice_channel = client.get_channel(783738781538844697)
-            print(f'channel obtained {voice_channel}')
-            await voice_chat.join()
-            print('connected to vc')
-            player = await voice_chat.join().create_ffmpeg_player('audio.mp3')
-            print('audio is ready')
-            await player.start()
-            print('never gonna give you up')
+#        elif command[0] == PREFIX + 'audio': #this is broken
+#            print('rick rolling')
+#           user=message.author
+#            print('user obtained')
+#            voice_channel = client.get_channel(783738781538844697)
+#            print(f'channel obtained {voice_channel}')
+#            await voice_chat.join()
+#            print('connected to vc')
+#            player = await voice_chat.join().create_ffmpeg_player('audio.mp3')
+#            print('audio is ready')
+#            await player.start()
+#            print('never gonna give you up')
+        elif command[0] == PREFIX + "search":
+            channel = GUILD.get_channel(command[1])
+            messages = await channel.history(limit=None).flatten()
+            for message in messages:
+                print(f'{message.author.id}{message.id}')
+                if message.author.ID == command[2]:
+                    print (f'{message.id} was sent by {command[2]} in {channel.name}')
         elif command[0] == "<@596098777941540883>":
             print(f'who tf pinged walksanator')
             await message.channel.send(

@@ -78,14 +78,18 @@ async def on_message(message):
 #            await player.start()
 #            print('never gonna give you up')
         elif command[0] == PREFIX + "search":
-            print(f'searching {command[1]} for messages by <@{command[2]}>')
+            embed = discord.Embed(title="Command help",description="command",color=0x00ffaa)
+#            print(f'searching {command[1]} for messages by <@{command[2]}>')
             channel = message.guild.get_channel(int(command[1]))
-            messages = await channel.history(limit=100).flatten()
+            messages = await channel.history(limit=None).flatten()
             print(f'len messages {len(messages)}')
             for msgs in messages:
-                print(f'message author id is {msgs.author.id} it needs to be {int(command[2])} ') 
-                if msgs.author.ID == int(command[2]):
+#                print(f'message author id is {msgs.author.id} it needs to be {int(command[2])} ') 
+                if msgs.author.id == int(command[2]):
                     print (f'{msgs.id} was sent by {command[2]} in {channel.name}')
+                    embed.add_field(name='disable',value=f'message {msgs.id} was sent by specified user in the specified channel',inline=False)            
+            await message.channel.send(embed=embed)
+            print('search finished')
         elif command[0] == "<@596098777941540883>":
             print(f'who tf pinged walksanator')
             await message.channel.send(

@@ -42,6 +42,7 @@ async def on_message(message):
         print(f'message \"{message.content}\" was sent in server \"{message.guild}\" specifically in #{message.channel}') #log all chat happening in #bots
         command=f'{message.content}'
         command=command.split(' ')
+        print(f'command array is {command}')
         print(f'{command} is type {type(command)}')
         if command[0] == PREFIX + '?': #help command
             embed = discord.Embed(title="Command help",description="command",color=0x00ffaa)
@@ -78,12 +79,11 @@ async def on_message(message):
 #            print('never gonna give you up')
         elif command[0] == PREFIX + "search":
             print(f'searching {command[1]} for messages by <@{command[2]}>')
-            channel = message.guild.get_channel(command[1])
-            print(channel)
+            channel = message.guild.get_channel(int(command[1]))
             messages = await channel.history(limit=None).flatten()
             for message in messages:
-                print(f'{message.author.id}{message.id}')
-                if message.author.ID == command[2]:
+                print(f'message author id is {message.author.id} it needs to be {int(command[2])} ') 
+                if message.author.ID == int(command[2]):
                     print (f'{message.id} was sent by {command[2]} in {channel.name}')
         elif command[0] == "<@596098777941540883>":
             print(f'who tf pinged walksanator')

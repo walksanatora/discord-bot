@@ -53,7 +53,7 @@ async def on_message(message):
             embed.add_field(name='test',value=f'use {PREFIX}test to run a test command',inline=False)
             await message.channel.send(embed=embed)
         elif command[0] == PREFIX + 'test':
-            await message.channel.send('test command invoked')
+            await message.channel.send('test command invoked this whould appear after rebooting the pi ;-;')
         elif command[0] == PREFIX + 'raise-exception': #cause an intentional error
             print('exception manually raised')
             raise discord.DiscordException

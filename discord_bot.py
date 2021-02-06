@@ -50,7 +50,10 @@ async def on_message(message):
             embed.add_field(name='disable',value=f'use {PREFIX}disable to disconnect the bot and turn it off',inline=False)
             embed.add_field(name='repeat [text to say]',value=f'use {PREFIX}repeat to have the bot say stuff',inline=False)
             embed.add_field(name='search',value=f'use {PREFIX}search(channel id, user id) to search entire channel for messages by specified user id',inline=False)
+            embed.add_field(name='test',value=f'use {PREFIX}test to run a test command',inline=False)
             await message.channel.send(embed=embed)
+        elif command[0] == PREFIX + 'test':
+            await message.channel.send('test command invoked')
         elif command[0] == PREFIX + 'raise-exception': #cause an intentional error
             print('exception manually raised')
             raise discord.DiscordException

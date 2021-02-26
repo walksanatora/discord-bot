@@ -33,7 +33,7 @@ try:
             f'bot is bound to channel id: {BOT_CHANNEL}\n'
             f'the bot @ is: <@!{client.user.id}>'
         )
-except * as err
+except Exception as err
     print('massive fuck up trying to correct logging to log.txt')
     with open('err.log', 'a') as f:
         f.write(f'(init) massive fuckup hereis the log sir: {err}')
@@ -116,7 +116,7 @@ async def on_message(message):
                 f'use {PREFIX}? to get help \n'
             )
 #    else:
-except * as err
+except Exception as err
     print('massive fuck up trying to correct logging to log.txt')
     with open('err.log', 'a') as f:
         f.write(f'(commands)massive fuckup here is the log sir: {err}')

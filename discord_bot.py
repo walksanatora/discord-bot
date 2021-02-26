@@ -19,21 +19,25 @@ client = discord.Client()
 #ease of use
 space = ' '
 mention = f'<@!{BOT_ID}>'
-
-@client.event
-async def on_ready():
-    for guild in client.guilds:
-        if guild.name == GUILD:
-            break
-    print(f'mention is: {mention}')
-    print(
-        f'{client.user} is connected to the following server:\n'
-        f'{guild.name} with id: {guild.id}\n'
-        f'bot prefix is: {PREFIX}\n'
-        f'bot is bound to channel id: {BOT_CHANNEL}\n'
-        f'the bot @ is: <@!{client.user.id}>'
-    )
-
+try:
+    @client.event
+    async def on_ready():
+        for guild in client.guilds:
+            if guild.name == GUILD:
+                break
+        print(f'mention is: {mention}')
+        print(
+            f'{client.user} is connected to the following server:\n'
+            f'{guild.name} with id: {guild.id}\n'
+            f'bot prefix is: {PREFIX}\n'
+            f'bot is bound to channel id: {BOT_CHANNEL}\n'
+            f'the bot @ is: <@!{client.user.id}>'
+        )
+except * as err
+    print('massive fuck up trying to correct logging to log.txt')
+    with open('err.log', 'a') as f:
+        f.write(f'(init) massive fuckup hereis the log sir: {err}')
+try:
 @client.event
 async def on_message(message):
     if message.author == client.user:
@@ -112,7 +116,10 @@ async def on_message(message):
                 f'use {PREFIX}? to get help \n'
             )
 #    else:
-
+except * as err
+    print('massive fuck up trying to correct logging to log.txt')
+    with open('err.log', 'a') as f:
+        f.write(f'(commands)massive fuckup here is the log sir: {err}')
         
     
 

@@ -3,7 +3,6 @@ import os
 import re
 import time
 import discord
-import schedule
 import NSrefactor as NS
 from dotenv import load_dotenv
 import database

@@ -22,7 +22,7 @@ CONSOLE=bool(os.getenv('CONSOLE'))
 client = discord.Client()
 
 #nation states api
-NSA=NS.api(os.getenv('NS_PASSWORD'), os.getenv('NS_NATION'), os.getenv('USER_AGENT'))
+NSA=NS.api(False,os.getenv('NS_NATION'),os.getenv('NS_PASSWORD'))
 
 #non-bot functions
 def cleanHtml(raw_html):
@@ -39,27 +39,39 @@ async def recursiveReply(channel,reference, count):
         return(await recursiveReply(channel, ref.reference, count+1))
 
 def submitIssueVotes():
-    for f in DB.data:
-        id=f
+    for index in DB.data:
+        _id=index
         votes = {}
-        for k, v in f.items():
-            if int(v) <= 6:
+
+        #get a list of votes for each id
+        for userID, vote in DB.data[_id].items():
+            if int(vote) <= 6:
                 try:
-                    votes[str(v)] = int(votes[str(v)]) + 1
+                    votes[str(vote)] = int(votes[str(vote)]) + 1
                 except Exception as e:
-                    votes[str(v)] = 1
+                    votes[str(vote)] = 1
+
+        #compare votes to see which has more votes and the id
         win = [0,0]
-        for k, v in votes.items():
-            if int(v) > win[1]:
-                win = [int(k), int(v)]
-        if not type(LOG.data[str(id)]) == type([]):
-            LOG.data[str(id)]=[]
-        LOG.data[str(id)].append(NSA.functions.submitIssue(id, win[0])[1])
-        del(DB.data[str(id)])
-        DB.saveDB()
-        log.saveDB()
+        for vote, ammount in votes.items():
+            if int(ammount) > win[1]:
+                win = [int(vote), int(ammount)]
+
+        #log the votes and send off the results
+        try:
+            if not type(LOG.data[str(_id)]) == type([1,2,3]):
+                LOG.data[str(_id)]=[]
+        except KeyError as e:
+            LOG.data[str(_id)]=[]
+        LOG.data[str(_id)].append(str(NSA.functions.submitIssue(_id, win[0])[1]))
         time.sleep(1)
 
+    #delete the data from the db
+    DB.data={}
+    
+    #save the databases
+    DB.saveDB()
+    LOG.saveDB()
 #bot functions that make the bot work
 @client.event
 async def on_ready():
@@ -73,9 +85,18 @@ async def on_message(message):
         else:
             command=f'{message.content}'
             command=command.split(' ')
+        if not CONSOLE and command[0]==client.user.id or command[0]==f'{PREFIX}help':
+            embed = discord.Embed(title=f'Help bot commands prefix: {PREFIX}',description='here are the (documented) commands',color=0x00ffaa)
+            embed.add_field(name=f'{PREFIX}help',value='shows this message')
+            embed.add_field(name=f'{PREFIX}issues',value='shows all the issues the nation is facing')
+            embed.add_field(name=f'{PREFIX}newIssue',value='shows time till next issue')
+            embed.add_field(name=f'{PREFIX}vote',value='submit your vote upon a issue')
+            embed.add_field(name=f'{PREFIX}submit',value='(admin only) submits the votes on all issues')
+            embed.add_field(name=f'{PREFIX}replyChain',value='gets the lenght of a reply chain(may take a bit)')
+            await message.channel.send(embed=embed)
         if command[0] == f'{PREFIX}issues':
             issues = NSA.functions.getIssues()
-            embed = discord.Embed(title='issues facing the nation',description='current issues the nation is facing',color=0x800000)
+            embed = discord.Embed(title='Issues Facing The Nation',description='current issues the nation is facing',color=0x800000)
             if not CONSOLE:
                 for i in issues:
                     embed.add_field(name=f'{i.title}**\nID:**{i.id}',value=cleanHtml(i.background),inline=False)
@@ -91,15 +112,26 @@ async def on_message(message):
                         print(f'\t\t{a}\n')
                     input('press enter to continue:')
                 return(issues)
+        if command[0] == f'{PREFIX}issueOptions':
+            issues = NSA.functions.getIssues()
+            for issue in issues:
+                if issue.id == command[1]:
+                    print('issue found')
+                    embed=discord.Embed(title=f'{issue.title} id:{command[1]}',description=issue.background)
+                    cout=1
+                    for f in issue.options:
+                        embed.add_field(name=f'option:{cout}',value=f,inline=False)
+                        cout=cout+1
+                    await message.channel.send(embed=embed)
+                    break
         if command[0] == f'{PREFIX}newIssue':
             nextIssue = NSA.functions.getTimeTillNextIssue()
-            embed = discord.Embed(Title='time remeaning till next issue',description='how much longer till the next issue becomes avaliable')
+            embed = discord.Embed(Title='Time Remeaning Till Next Issue',description='how much longer till the next issue becomes avaliable')
             embed.add_field(name='time remaning',value=f'{nextIssue[0]}',inline=True)
             if not CONSOLE:
                 await message.channel.send(embed=embed)
             else:
                 print(embed)
-
         if command[0] == f'{PREFIX}vote':
             if not NSA.functions.validateIssueID(command[1]):
                 if not CONSOLE:
@@ -111,12 +143,15 @@ async def on_message(message):
                 DB.data[command[1]] = {}
             DB.data[command[1]][str(message.author.id)] = str(command[2])
             DB.saveDB()
+            await message.channel.send('vote collected')
 
         if command[0] == f'{PREFIX}submit':
-            if CONSOLE:
+            print('submitting')
+            if not CONSOLE:
                 if message.channel.permissions_for(message.author).administrator or message.author.id==int('596098777941540883'):
-                    message.channel.send(content='submitting votes')
+                    msg = await message.channel.send(content='submitting votes')
                     submitIssueVotes()
+                    await msg.edit(content='votes submitted')
             else:
                 print('submitting votes')
                 submitIssueVotes()
@@ -125,6 +160,7 @@ async def on_message(message):
             await message.channel.send(content=f'this message is a part of a reply chain {await recursiveReply(message.channel,  ref.reference, 1)} messages long')
     except NSA.exception.httpError as error:
         await message.channel.send(content='a http error has occured try again in a little bit')
+        print(error)
 
 if not CONSOLE:
     client.run(TOKEN)

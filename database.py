@@ -4,6 +4,7 @@ class db:
         self.file=file
         with open(file,'r') as f:
             self.data = json.load(f)
+            print(f'opened json {self.data} with type {type(self.data)}')
     def saveDB(self):
         with open(self.file,'w') as f:
             json.dump(self.data,f)

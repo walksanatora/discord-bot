@@ -6,36 +6,36 @@ import xml.etree.ElementTree as ET
 
 
 class api:
-    def __init__(self, *args):
-        cnt = 0
-        Ivars = ['Password', 'Nation', 'UserAgent']
-        for i in args:
-            try:
-                setattr(self.state, Ivars[cnt], i)
-            except Exception as e:
-                print(f'error occured: {e}')
-            cnt=cnt+1
-        if self.functions.canLogin:
-            a = self.functions.query('ping')
-            self.state.pin = a.headers['X-Pin']
+    def __init__(self,UseAutologin,Username,Password):
+        self.state.Nation=Username
+        request = self.functions.query('ping',Password)
+        if bool(UseAutologin):
+            self.state.Auth=request.headers['X-Autologin']
+        else:
+            self.state.Auth=request.headers['X-Pin']
+        self.state.UseAutologin = UseAutologin
+
     #sub classes
     class state:
-        Password = ''
+        UseAutologin = False
+        Auth = ''
         Nation = ''
-        UserAgent = 'email:walkerffo22@hotmail.com'
-        pin = ''
+        UserAgent = 'Nationstates.py, the Nationstates api wrapper written by walksanator email:walkerffo22@hotmail.com'
 
     class functions:
-        def query(option):
-            if api.state.pin == '':
-                headers = {'X-Password' : api.state.Password, 'user-agent' : api.state.UserAgent}
+        def query(option, *args):
+            #set the headers
+            if api.state.Auth == '':
+                headers = {'X-Password' : args[0], 'user-agent' : api.state.UserAgent}
             else:
-                headers = {'X-Pin' : api.state.pin, 'user-agent' : api.state.UserAgent}
+                if api.state.UseAutologin:
+                    headers = {'X-AutoLogin' : api.state.Auth, 'user-agent' : api.state.UserAgent}
+                else:
+                    headers = {'X-Pin' : api.state.Auth, 'user-agent' : api.state.UserAgent}
+            #make the request
             r = requests.get(f'https://www.nationstates.net/cgi-bin/api.cgi?nation={api.state.Nation}&q={option}', headers=headers)
-            if api.state.pin == '':
-                api.state.pin = r.headers['X-Pin']
             if r.status_code != 200:
-                raise api.exception.exception.httpError(r.content)
+                raise api.exception.httpError(r.content)
             return(r)
         
         def canLogin():
@@ -46,7 +46,7 @@ class api:
         def validateIssueID(id):#checks if the issue id is a valid one that you can acess
             issues = api.functions.getIssues()
             for issue in issues:
-                if issues[0].attrib['id'] == str(id):
+                if issue.id == str(id):
                     return True
             return(False)
 
@@ -54,7 +54,7 @@ class api:
             issues = api.functions.getIssues()
             IDs = []
             for issue in issues:
-                IDs.append(issue.attrib['id'])
+                IDs.append(issue.id)
             return(IDs)
 
         def getTimeTillNextIssue():
@@ -87,7 +87,10 @@ class api:
             return(out)
             
         def submitIssue(issue, choice):
-            headers = {'X-Password' : api.state.Password, 'user-agent' : api.state.UserAgent}
+            if api.state.UseAutologin:
+                headers = {'X-AutoLogin' : api.state.Auth, 'user-agent' : api.state.UserAgent}
+            else:
+                headers = {'X-Pin' : api.state.Auth, 'user-agent' : api.state.UserAgent}
             payload={'nation' : f'{api.state.Nation}','c' : 'issue','issue' : f'{issue}','option' : f'{choice}'}
             http = requests.post(f'https://www.nationstates.net/cgi-bin/api.cgi', data=payload, headers=headers)
             xml = http.content
@@ -103,6 +106,7 @@ class api:
     class vars:
         class Issue:
             def __init__(self,xml):
+                self.rawXML=xml
                 self.id=xml.attrib['id']
                 self.title=xml[0].text
                 self.background=xml[1].text
@@ -117,3 +121,4 @@ class api:
             title = ""
             background = ""
             options = []
+            rawXML = ''

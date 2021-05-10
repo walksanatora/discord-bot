@@ -63,7 +63,7 @@ def submitIssueVotes():
                 LOG.data[str(_id)]=[]
         except KeyError as e:
             LOG.data[str(_id)]=[]
-        LOG.data[str(_id)].append(str(NSA.functions.submitIssue(_id, win[0])[1]))
+        LOG.data[str(_id)].append(str(NSA.functions.submitIssue(_id, win[0]).text))
         time.sleep(1)
 
     #delete the data from the db

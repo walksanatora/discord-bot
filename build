@@ -1,0 +1,29 @@
+#!/bin/bash
+
+
+#get the files we need to keep
+#explanation of the command
+#   docker cp (container name):(source path) (destination)
+#in this case i am copying from the container "discord-bot" so that goes before the :
+docker cp discord-bot:/discord-bot/db.json src/db.json #copies /discord-bot/db.json into src/db.json
+docker cp discord-bot:/discord-bot/logging.json src/logging.json #copies /discord-bot/logging.json into src/logging.json
+docker cp discord-bot:/discord-bot/log.txt src/log.txt #copies /discord-bot/log.txt into src/log.txt
+
+#delete old container to avoid name conflicts
+#explanation of the command
+#   docker rm (flags) (container)
+#in this case i use the -f flag so it will kill the container first
+docker rm  -f discord-bot
+
+#re build the container pushing updates
+#explanation of the command
+#   docker build (flags) (dockerfile)
+#here i use the -t flag to give it a tag (owner):(version) and since the docker file is here i use a .
+docker build -t walksanator:discord-bot .
+
+#run the container now with the updated code
+#explanation of the command
+#   docker run (flags) (container image)
+#in this case I run with -d so the container will run in a detached state (does not connect to terminal, becomes a background process)
+#i also use --name to name the container for easy acess
+docker run -d --name discord-bot walksanator:discord-bot

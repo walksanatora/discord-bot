@@ -49,16 +49,13 @@ reGenKey.start()
 @client.event
 async def on_message(message):
     try:
-        logs.log('message recieved')
         command = str.split(message.content,' ')
         cmd = commands.commands
         if not command[0].startswith(PREFIX):
             return
-        logs.log('removing the ?')
         command[0]=command[0][1:]
         logs.log(command)
         try:
-            logs.log('running command')
             await getattr(cmd,command[0]).run(message,NSA,command)
         except AttributeError:
             logs.log('attrib ohno',traceback.format_exc())

@@ -155,3 +155,31 @@ class commands:
         helpText='links the nation this bot is connected to'
         isHidden = False
 
+    class rr:
+        async def run(message,NSA,command):
+            voice_channel = message.guild.get_channel(int(command[1]))
+            logs.log(voice_channel)
+            channel = None
+            if voice_channel != None:
+                channel = voice_channel.name
+                logs.log(channel)
+                vc = await voice_channel.connect()
+                logs.log('connected to vc',vc)
+                vc.play(discord.FFmpegPCMAudio(executable="/usr/bin/ffpmeg", source="/discord-bot/audio/rickRoll.mp3"))
+                # Sleep while audio is playing.
+                while vc.is_playing():
+                    sleep(.1)
+                await vc.disconnect()
+            else:
+                await message.channel.send(content="wait this is not a channel")
+            # Delete command after the audio is done playing.
+        helpText='rickrolls you if you are in a vc'
+        isHidden=False
+    
+    class eval:
+        async def run(message,NSA,command):
+            command=command[1:]
+            logs.log(' '.join(command))
+            logs.log(exec(' '.join(command)))
+        helpText='no'
+        isHidden=True

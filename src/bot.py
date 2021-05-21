@@ -12,7 +12,7 @@ import traceback
 DB=database.db('db.json')
 LOG=database.db('logging.json')
 import logs
-
+import traceback
 
 #defining globals
 load_dotenv()
@@ -49,13 +49,16 @@ reGenKey.start()
 @client.event
 async def on_message(message):
     try:
+        logs.log('message recieved')
         command = str.split(message.content,' ')
         cmd = commands.commands
         if not command[0].startswith(PREFIX):
             return
+        logs.log('removing the ?')
         command[0]=command[0][1:]
         logs.log(command)
         try:
+            logs.log('running command')
             await getattr(cmd,command[0]).run(message,NSA,command)
         except AttributeError:
             logs.log('attrib ohno',traceback.format_exc())
@@ -63,7 +66,10 @@ async def on_message(message):
     except NSA.exception.httpError as error:
         await message.channel.send(content='a http error has occured try again in a little bit')
         logs.log(error)
-
+    except Exception as error:
+        logs.log('a big error occured')
+        logs.log(error)
+        logs.log(traceback.format_exc())
 if not CONSOLE:
     client.run(TOKEN)
     logs.log('post run')

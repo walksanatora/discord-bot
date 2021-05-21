@@ -1,5 +1,6 @@
 import logging
+import traceback
 try:
-    import bot.py
+    import bot
 except Exception as e:
-    logging.log(e,traceback.logging.log_exc())
+    logging.log(e,traceback.log_exc())

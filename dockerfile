@@ -5,9 +5,11 @@ RUN apt update
 #we install the required packages from apt here
 RUN apt install -y python3 python3-pip ffmpeg
 #here we install the pip packages
-RUN python3 -m pip install discord.py python-dotenv requests
+RUN python3 -m pip install discord.py python-dotenv requests PyNaCl 
 #add all the discord bot files into the debian env at the location /discord-bot
 COPY ./src /discord-bot
+RUN touch /discord-bot/log.txt
+RUN chmod 777 /discord-bot
 #when we run the container we cd to the discord bot foler, then run wrap.py (catch all the errors and log them)
 CMD cd discord-bot;python3 wrap.py
 

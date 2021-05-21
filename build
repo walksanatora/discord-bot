@@ -28,7 +28,3 @@ docker build -t walksanator:discord-bot .
 #i also use --name to name the container for easy acess
 docker run -d --name discord-bot walksanator:discord-bot
 
-
-#chown files because docker kept the permissions from within the container
-echo changing permissions please ignore
-sudo chown -R $USER:$USER src/

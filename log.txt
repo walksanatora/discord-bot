@@ -1,20 +1,2 @@
 re-loaded api 
 bot is online as " Nation States Bot#1109 " 
-['rr', '819313665358037046'] 
-General 
-General 
-a big error occured 
- 
-Traceback (most recent call last):
-  File "/discord-bot/bot.py", line 59, in on_message
-    await getattr(cmd,command[0]).run(message,NSA,command)
-  File "/discord-bot/commands.py", line 166, in run
-    vc = await voice_channel.connect()
-  File "/usr/local/lib/python3.7/dist-packages/discord/abc.py", line 1285, in connect
-    await voice.connect(timeout=timeout, reconnect=reconnect)
-  File "/usr/local/lib/python3.7/dist-packages/discord/voice_client.py", line 345, in connect
-    await utils.sane_wait_for(futures, timeout=timeout)
-  File "/usr/local/lib/python3.7/dist-packages/discord/utils.py", line 362, in sane_wait_for
-    raise asyncio.TimeoutError()
-concurrent.futures._base.TimeoutError
- 

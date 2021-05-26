@@ -26,5 +26,8 @@ docker build -t walksanator:discord-bot .
 #   docker run (flags) (container image)
 #in this case I run with -d so the container will run in a detached state (does not connect to terminal, becomes a background process)
 #i also use --name to name the container for easy acess
-docker run -d --name discord-bot walksanator:discord-bot
-
+if [ $1 == '--service' ]; then
+	docker run --name discord-bot walksanator:discord-bot
+else
+	docker run -d --name discord-bot walksanator:discord-bot
+fi

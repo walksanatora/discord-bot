@@ -15,6 +15,8 @@ client.once('ready', () => {
 	console.log('Ready!');
 });
 
+//TODO: https://support-dev.discord.com/hc/en-us/articles/4404772028055 (deprecation of reading message content)
+/*
 client.on('messageCreate', message => {
 	console.log(message.content);
 	cmds=message.content.split(' ')
@@ -29,6 +31,7 @@ client.on('messageCreate', message => {
 			console.log("none of my buisness")
 	}
 });
+*/
 
 const commands = {}
 

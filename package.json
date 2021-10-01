@@ -4,7 +4,9 @@
   "description": "a extremely trash bot that interfaces with the NationStates api and lets discord users vote",
   "main": "bot.js",
   "scripts": {
-    "test": "echo 'nonce'"
+    "run": "node bot.js",
+    "globalCMD": "node globalCommands.js",
+    "guildCMD": "node guildCommands.js"
   },
   "repository": {
     "type": "git",

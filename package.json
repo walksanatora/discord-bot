@@ -4,17 +4,18 @@
   "description": "a extremely trash bot that interfaces with the NationStates api and lets discord users vote",
   "main": "bot.js",
   "scripts": {
-    "run": "node bot.js",
+    "bot": "node bot.js",
     "globalCMD": "node globalCommands.js",
     "guildCMD": "node guildCommands.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/walksanatora/discord-bot/tree/nation_states"
+    "url": "https://github.com/walksanatora/discord-bot/tree/nationStates.js"
   },
   "keywords": [
     "discord",
-    "bot"
+    "bot",
+    "discord.js"
   ],
   "author": "walksanator",
   "license": "UNLICENSED",

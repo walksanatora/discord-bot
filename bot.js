@@ -1,21 +1,16 @@
 require('dotenv').config()
 const discord = require('discord.js')
 const client = new discord.Client({intents: [discord.Intents.FLAGS.GUILD_MESSAGES,discord.Intents.FLAGS.GUILDS]});
-const os = require('os')
 
 /*
 variables in .env
 DISCORD_TOKEN: your discord token
 BOT_PREFIX the prefix for the bot
 */
-//utility function for fotmatting bytes
-function formatBytes(a,b=2,k=1024){with(Math){let d=floor(log(a)/log(k));return 0==a?"0 Bytes":parseFloat((a/pow(k,d)).toFixed(max(0,b)))+" "+["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"][d]}}
-
 
 var PREFIX=process.env.BOT_PREFIX
 
-console.log(typeof(process.env.DISCORD_TOKEN))
-console.log(process.env.DISCORD_TOKEN)
+
 client.once('ready', () => {
 	console.log('Ready!');
 });
@@ -35,25 +30,16 @@ client.on('messageCreate', message => {
 	}
 });
 
+const commands = {}
 
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+	commands[command.data.name] = command.function
+}
 
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
-
-	if (interaction.commandName === 'echo') {
-		await interaction.reply(interaction.options.getString('input'));
-	}else if (interaction.commandName == 'proc'){
-		const exampleEmbed = new discord.MessageEmbed()
-			.setColor('#00ffaa')
-			.setTitle('Device Specs')
-			.setDescription('Lets see what we got')
-			.addField('Arch', os.arch().toString() )
-			.addField('Remaining Ram', formatBytes(os.freemem()) + '/' + formatBytes(os.totalmem()) )
-			.addField('Uptime', new Date(os.uptime * 1000).toISOString().substr(11, 8) )
-			.addField('OS', os.type() +' '+ os.release() )
-			.setTimestamp()
-		await interaction.reply({ embeds:[exampleEmbed], ephemeral: true })
-	} 
+	await commands[interaction.commandName](interaction,client)
 });
 
 client.login(process.env.DISCORD_TOKEN);

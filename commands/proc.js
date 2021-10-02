@@ -15,7 +15,7 @@ async function func(interaction,client) {
 	versions = ''
 	stats = stats + `Arch:       ${os.arch().toString()}\n`
 	stats = stats + `Ram Usage:  ${formatBytes(ramUsage.used) + '/' + formatBytes(ramUsage.total)}\n`
-	stats = stats + `Bot Uptime: ${ new Date(client.uptime * 1000).toISOString().substr(11, 8)}\n`
+	stats = stats + `Bot Uptime: ${ new Date(client.uptime).toISOString().substr(11, 8)}\n`
 	stats = stats + `OS:         ${os.type() +' '+ os.release()}`
 	versions = versions + `NodeJS version:       ${process.version}\n`
 	versions = versions + `Discord.js version:   ${discord.version}`

@@ -4,18 +4,16 @@ const os = require('os');
 const { exit } = require('process');
 
 function has(value,array) {
-	if (array.forEach(element => {
+	let hasValue = false
+	array.forEach(element => {
 		console.log("%s %s", element,value)
 		console.log("%s %s", typeof element, typeof value)
 		if (element == value){
-			console.log('has')
-			return true
+			hasValue = true
 		}
-	})){
-		return true
-	}
-	console.log('no has')
-	return false
+	})
+	console.log(hasValue)
+	return hasValue
 }
 
 const data = new SlashCommandBuilder()

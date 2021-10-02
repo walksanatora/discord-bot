@@ -1,5 +1,6 @@
 require('dotenv').config()
 const discord = require('discord.js')
+const { codeBlock } = require('@discordjs/builders');
 const client = new discord.Client({intents: [discord.Intents.FLAGS.GUILD_MESSAGES,discord.Intents.FLAGS.GUILDS]});
 const fs = require('fs');
 /*
@@ -34,24 +35,25 @@ client.on('messageCreate', message => {
 });
 */
 
-const commands = {}
+global.commands = {}
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
-	commands[command.data.name] = command.function
+	commands[command.data.name] = command
 }
 
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 	try {
-		await commands[interaction.commandName](interaction,client)	
+		await commands[interaction.commandName].function(interaction,client)	
 	} catch (error) {
 		const exampleEmbed = new discord.MessageEmbed()
-		.setColor('#ff0000')
-		.setTitle('Error occured')
-		.addField('Excpetion',error.toString())
-		.addField('Detail',error.stack.toString())
+			.setColor('#ff0000')
+			.setTitle('Error occured')
+			.addField('Excpetion',error.toString())
+			.addField('Detail',codeBlock(error.stack))
+		console.log(error.stack)
 		await interaction.reply({embeds: [exampleEmbed]})
 	}
 });

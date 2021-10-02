@@ -20,7 +20,7 @@ async function func(interaction,client) {
 	versions = versions + `NodeJS version:       ${process.version}\n`
 	versions = versions + `Discord.js version:   ${discord.version}`
 	const exampleEmbed = new discord.MessageEmbed()
-		.setColor('#00ffaa')
+		.setColor('00ffaa')
 		.setTitle('Device Specs')
 		.setDescription('Lets see what we got')
 		.addField('Stats',codeBlock(stats))

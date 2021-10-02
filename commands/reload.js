@@ -7,7 +7,7 @@ const data = new SlashCommandBuilder()
 	.setName('reload')
 	.setDescription('reloads the bots state')
 
-const allowedUsers = [596098777941540883]
+const allowedUsers = ['596098777941540883']
 async function func(interaction,client) {
 	if (interaction.user.id in allowedUsers) {
 		await interaction.reply('reloading Bot, git pulling, npm installing and restarting')

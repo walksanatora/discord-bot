@@ -10,7 +10,7 @@ const data = new SlashCommandBuilder()
 	.setDescription('returns OS information')
 
 async function func(interaction,client) {
-	ramUsate = require('../tmp.js')
+	ramUsage = require('../tmp.js')
 	const exampleEmbed = new discord.MessageEmbed()
 		.setColor('#00ffaa')
 		.setTitle('Device Specs')

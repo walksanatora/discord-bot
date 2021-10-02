@@ -13,5 +13,5 @@ module.exports={
 	'helpStr':"list off some device status information", //sting to be used when the help command is called
 	'canDeploy':false, //can this command be deployed globally to all guilds
 	'guildIds':[], //guildIDs to roll out to when running for test,
-	'function': func
+	'function': func //async function to be executed when the command is run
 }

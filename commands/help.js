@@ -17,7 +17,7 @@ const data = new SlashCommandBuilder() //creating a /command via the special bui
 
 async function func(interaction,client){ // first arg is the interaction object, second arg is the discord client
 	const exampleEmbed = new discord.MessageEmbed()
-		.setColor('00ffaa')
+		.setColor([0,255,128])
 		.setTitle('A full list of commands')
 	const serverCommands = []
 	Object.keys(commands).forEach(element => {

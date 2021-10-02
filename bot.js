@@ -19,9 +19,10 @@ BOT_PREFIX the prefix for the bot
 var PREFIX=process.env.BOT_PREFIX
 
 
+
 client.once('ready', () => {
 	console.log('Ready!');
-	client.user.setPresence({ activities: [{ name: _.sample(wittyPresences) }], status: 'online' });
+	client.user.setPresence({ activities: [{ name: wittyPresences[Math.floor(Math.random()*myArray.length)] }], status: 'online' });
 });
 
 //TODO: https://support-dev.discord.com/hc/en-us/articles/4404772028055 (deprecation of reading message content)

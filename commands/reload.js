@@ -6,13 +6,10 @@ const { exit } = require('process');
 function has(value,array) {
 	let hasValue = false
 	array.forEach(element => {
-		console.log("%s %s", element,value)
-		console.log("%s %s", typeof element, typeof value)
 		if (element == value){
 			hasValue = true
 		}
 	})
-	console.log(hasValue)
 	return hasValue
 }
 
@@ -23,14 +20,10 @@ const data = new SlashCommandBuilder()
 const allowedUsers = ['596098777941540883']
 async function func(interaction,client) {
 	if (has(interaction.user.id, allowedUsers)) {
-		console.log('reloading')
 		await interaction.reply('reloading Bot, git pulling, npm installing and restarting')
 		exit()
 	} else {
-		console.log(has(interaction.user.id, allowedUsers))
 		await interaction.reply('not authorized to reload the bot')
-		console.log(interaction.user.id)
-		console.log(typeof interaction.user.id)
 	}
 }
 

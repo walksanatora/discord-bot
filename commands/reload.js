@@ -7,8 +7,9 @@ function has(value,array) {
 	array.forEach(element => {
 		console.log("%s %s", element,value)
 		console.log("%s %s", typeof element, typeof value)
-		if (element == value){return true}
+		if (element == value){console.log('has');return true}
 	});
+	console.log('no has')
 	return false
 }
 

@@ -3,6 +3,13 @@ const discord = require('discord.js')
 const { codeBlock } = require('@discordjs/builders');
 const client = new discord.Client({intents: [discord.Intents.FLAGS.GUILD_MESSAGES,discord.Intents.FLAGS.GUILDS]});
 const fs = require('fs');
+const wittyPresences = [
+	'The senate shall decide your fate!',
+	'Senate is in session.',
+	'The council shall decide your fate!',
+	'Council is in session',
+	'Did I crash?'
+]
 /*
 variables in .env
 DISCORD_TOKEN: your discord token
@@ -14,7 +21,7 @@ var PREFIX=process.env.BOT_PREFIX
 
 client.once('ready', () => {
 	console.log('Ready!');
-	client.user.setPresence({ activities: [{ name: 'Council is in session!' }], status: 'online' });
+	client.user.setPresence({ activities: [{ name: _.sample(wittyPresences) }], status: 'online' });
 });
 
 //TODO: https://support-dev.discord.com/hc/en-us/articles/4404772028055 (deprecation of reading message content)

@@ -46,7 +46,7 @@ client.on('interactionCreate', async interaction => {
 	try {
 		await commands[interaction.commandName](interaction,client)	
 	} catch (error) {
-		
+		await interaction.reply({})
 	}
 });
 

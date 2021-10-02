@@ -6,6 +6,8 @@ const { exit } = require('process');
 function has(value,array) {
 	array.forEach(element => {
 		if (element == value){return true}
+		console.log(element,value)
+		console.log(typeof element, typeof value)
 	});
 	return false
 }

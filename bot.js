@@ -43,7 +43,11 @@ for (const file of commandFiles) {
 
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
-	await commands[interaction.commandName](interaction,client)
+	try {
+		await commands[interaction.commandName](interaction,client)	
+	} catch (error) {
+		
+	}
 });
 
 client.login(process.env.DISCORD_TOKEN);

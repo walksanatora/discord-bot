@@ -23,7 +23,7 @@ const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
 (async () => {
 	try {
 		console.log('Started refreshing application (/) commands.');
-		Object.keys(commands).forEach(key => {
+		Object.keys(commands).forEach(async key => {
 			await rest.put(
 				Routes.applicationGuildCommands(clientId, key),
 				{ body: commands[key] },

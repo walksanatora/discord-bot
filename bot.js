@@ -50,7 +50,7 @@ client.on('interactionCreate', async interaction => {
 		.setColor('#ff0000')
 		.setTitle('Error occured')
 		.addField('excpetion',error.toString())
-		await interaction.reply({content: ''})
+		await interaction.reply({embeds: [exampleEmbed]})
 	}
 });
 

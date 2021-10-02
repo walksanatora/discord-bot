@@ -7,7 +7,7 @@ const data = new SlashCommandBuilder()
 	.setName('reload')
 	.setDescription('reloads the bots state')
 
-async function func(information,client) {
+async function func(interaction,client) {
 	await interaction.reply('reloading Bot, git pulling, npm installing and restarting')
 	exit()
 }

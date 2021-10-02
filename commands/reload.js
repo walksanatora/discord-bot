@@ -7,9 +7,14 @@ const data = new SlashCommandBuilder()
 	.setName('reload')
 	.setDescription('reloads the bots state')
 
+const allowedUsers = [596098777941540883]
 async function func(interaction,client) {
-	await interaction.reply('reloading Bot, git pulling, npm installing and restarting')
-	exit()
+	if (interaction.user.id in allowedUsers) {
+		await interaction.reply('reloading Bot, git pulling, npm installing and restarting')
+		exit()
+	} else {
+		await interaction.reply('not authorized to reload the bot')
+	}
 }
 
 module.exports={

@@ -20,10 +20,10 @@ const data = new SlashCommandBuilder()
 const allowedUsers = ['596098777941540883']
 async function func(interaction,client) {
 	if (has(interaction.user.id, allowedUsers)) {
-		await interaction.reply('reloading Bot, git pulling, npm installing and restarting')
+		await interaction.reply({content:'reloading Bot, git pulling, npm installing and restarting', ephemeral: true})
 		exit()
 	} else {
-		await interaction.reply('not authorized to reload the bot')
+		await interaction.reply({content:'not authorized to reload the bot', ephemeral: true})
 	}
 }
 

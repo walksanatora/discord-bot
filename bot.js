@@ -1,7 +1,7 @@
 require('dotenv').config()
 const discord = require('discord.js')
 const client = new discord.Client({intents: [discord.Intents.FLAGS.GUILD_MESSAGES,discord.Intents.FLAGS.GUILDS]});
-
+const fs = require('fs');
 /*
 variables in .env
 DISCORD_TOKEN: your discord token

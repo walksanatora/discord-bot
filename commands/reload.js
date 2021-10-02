@@ -15,6 +15,7 @@ async function func(interaction,client) {
 	} else {
 		await interaction.reply('not authorized to reload the bot')
 		console.log(interaction.user.id)
+		console.log(typeof interaction.user.id)
 	}
 }
 

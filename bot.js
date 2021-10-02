@@ -49,7 +49,8 @@ client.on('interactionCreate', async interaction => {
 		const exampleEmbed = new discord.MessageEmbed()
 		.setColor('#ff0000')
 		.setTitle('Error occured')
-		.addField('excpetion',error.toString())
+		.addField('Excpetion',error.toString())
+		.addField('Detail',error.stack.toString())
 		await interaction.reply({embeds: [exampleEmbed]})
 	}
 });

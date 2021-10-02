@@ -19,6 +19,8 @@ async function func(interaction,client) {
 		.addField('Ram Usage', formatBytes(ramUsage.used) + '/' + formatBytes(ramUsage.total), true )
 		.addField('Bot Uptime', new Date(client.uptime * 1000).toISOString().substr(11, 8),true)
 		.addField('OS', os.type() +' '+ os.release() )
+		.addField('NodeJS version', process.version)
+		.addField('Discord.js version', discord.version)
 		.setTimestamp()
 	await interaction.reply({ embeds:[exampleEmbed], ephemeral: true })
 }

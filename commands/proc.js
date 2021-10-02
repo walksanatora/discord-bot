@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder,codeBlock } = require('@discordjs/builders');
 const discord = require('discord.js')
 const os = require('os')
 
@@ -11,16 +11,20 @@ const data = new SlashCommandBuilder()
 
 async function func(interaction,client) {
 	ramUsage = require('../tmp.js')
+	stats = ''
+	versions = ''
+	stats = stats + `Arch:       ${os.arch().toString()}\n`
+	stats = stats + `Ram Usage:  ${formatBytes(ramUsage.used) + '/' + formatBytes(ramUsage.total)}\n`
+	stats = stats + `Bot Uptime: ${ new Date(client.uptime * 1000).toISOString().substr(11, 8)}\n`
+	stats = stats + `OS:         ${os.type() +' '+ os.release()}`
+	versions = versions + `NodeJS version:       ${process.version}\n`
+	versions = versions + `Discord.js version:   ${discord.version}`
 	const exampleEmbed = new discord.MessageEmbed()
 		.setColor('#00ffaa')
 		.setTitle('Device Specs')
 		.setDescription('Lets see what we got')
-		.addField('Arch', os.arch().toString(), true )
-		.addField('Ram Usage', formatBytes(ramUsage.used) + '/' + formatBytes(ramUsage.total), true )
-		.addField('Bot Uptime', new Date(client.uptime * 1000).toISOString().substr(11, 8),true)
-		.addField('OS', os.type() +' '+ os.release() )
-		.addField('NodeJS version', process.version)
-		.addField('Discord.js version', discord.version)
+		.addField('Stats',codeBlock(stats))
+		.addField('Versions',codeBlock(versions))
 		.setTimestamp()
 	await interaction.reply({ embeds:[exampleEmbed], ephemeral: true })
 }

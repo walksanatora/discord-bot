@@ -21,6 +21,7 @@ const allowedUsers = ['596098777941540883']
 async function func(interaction,client) {
 	if (has(interaction.user.id, allowedUsers)) {
 		await interaction.reply({content:'reloading Bot, git pulling, npm installing and restarting', ephemeral: true})
+		client.user.setPresence({ activities: [{ name: 'restarting' }], status: 'dnd' });
 		exit()
 	} else {
 		await interaction.reply({content:'not authorized to reload the bot', ephemeral: true})

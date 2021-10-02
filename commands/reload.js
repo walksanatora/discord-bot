@@ -3,13 +3,20 @@ const discord = require('discord.js')
 const os = require('os');
 const { exit } = require('process');
 
+function has(value,array) {
+	array.forEach(element => {
+		if (element == value){return true}
+	});
+	return false
+}
+
 const data = new SlashCommandBuilder()
 	.setName('reload')
 	.setDescription('reloads the bots state')
 
 const allowedUsers = ['596098777941540883']
 async function func(interaction,client) {
-	if (interaction.user.id in allowedUsers) {
+	if (has(interaction.user.id, allowedUsers)) {
 		await interaction.reply('reloading Bot, git pulling, npm installing and restarting')
 		exit()
 	} else {

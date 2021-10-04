@@ -20,6 +20,7 @@ async function func(interaction,client){
 		guildId: interaction.channel.guild.id,
 		adapterCreator: interaction.channel.guild.voiceAdapterCreator,
 	});
+	console.log(connection.joinConfig)
 	player.play(audioResource)
 	connection.subscribe(player)
 	setTimeout(() => player.unpause(), 5_000)

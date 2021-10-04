@@ -7,7 +7,7 @@ const player = createAudioPlayer({
 	},
 });
 
-const audioResource = createAudioResource('/home/walksanator/bots/nationStates/out.mp3');
+const audioResource = createAudioResource('/home/pi/gitrepo/discord-bot/out.mp3');
 
 const data = new SlashCommandBuilder()
 	.setName('example')

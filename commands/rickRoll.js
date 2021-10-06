@@ -7,11 +7,9 @@ const player = createAudioPlayer({
 	},
 });
 
-const audioResource = createAudioResource('/home/pi/gitrepo/discord-bot/out.mp3');
-
 const data = new SlashCommandBuilder()
-	.setName('example')
-	.setDescription('logs something to the console')
+	.setName('RickRoll')
+	.setDescription('kills your sanity')
 
 async function func(interaction,client){
 	if (interaction.member.voice.channel.id == null){await interaction.reply('join a vc'); return} 
@@ -21,6 +19,7 @@ async function func(interaction,client){
 		adapterCreator: interaction.channel.guild.voiceAdapterCreator,
 	});
 	console.log(connection.joinConfig)
+	player.stop(true)
 	player.play(audioResource)
 	connection.subscribe(player)
 	setTimeout(() => player.unpause(), 5_000)

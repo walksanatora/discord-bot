@@ -7,6 +7,8 @@ const player = createAudioPlayer({
 	},
 });
 
+const audioResource = createAudioResource('/home/pi/gitrepo/discord-bot/out.mp3')
+
 const data = new SlashCommandBuilder()
 	.setName('rickroll')
 	.setDescription('kills your sanity')

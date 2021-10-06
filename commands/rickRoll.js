@@ -13,7 +13,7 @@ const data = new SlashCommandBuilder()
 
 async function func(interaction,client){
 	if (interaction.member.voice.channel.id == null){await interaction.reply('join a vc'); return} 
-	const connection = joinVoiceChannel({
+	var connection = joinVoiceChannel({
 		channelId: interaction.member.voice.channel.id,
 		guildId: interaction.channel.guild.id,
 		adapterCreator: interaction.channel.guild.voiceAdapterCreator,
@@ -23,13 +23,16 @@ async function func(interaction,client){
 	var audioResource = createAudioResource('/home/pi/gitrepo/discord-bot/out.mp3')
 	player.play(audioResource)
 	connection.subscribe(player)
-	setTimeout(() => player.unpause(), 5_000)
 	await interaction.reply({ content:'rickrolling'})
+	player.on(AudioPlayerStatus.Idle, () => {
+		connection.destroy()
+	});
+	
 }
 
 module.exports={
 	'data':data, //slash command
-	'helpStr':"list off some device status information", //sting to be used when the help command is called
+	'helpStr':"slowly drains sanity", //sting to be used when the help command is called
 	'canDeploy':false, //can this command be deployed globally to all guilds
 	'guildIds':['783738781097263140'], //guildIDs to deploy to (for specific commands) (strings)
 	'function': func //async function to be executed when the command is run

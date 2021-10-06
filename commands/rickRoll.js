@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { joinVoiceChannel, createAudioResource, createAudioPlayer, NoSubscriberBehavior,AudioPlayerStatus } = require('@discordjs/voice');
+const { joinVoiceChannel, createAudioResource, createAudioPlayer, NoSubscriberBehavior, AudioPlayerStatus } = require('@discordjs/voice');
 
 const player = createAudioPlayer({
 	behaviors: {
@@ -12,18 +12,17 @@ const data = new SlashCommandBuilder()
 	.setDescription('kills your sanity')
 
 async function func(interaction,client){
-	if (interaction.member.voice.channel.id == null){await interaction.reply('join a vc'); return} 
+	if (interaction.member.voice.channel.id == null){await interaction.reply({content:'join a vc',ephemeral: true}); return} 
 	var connection = joinVoiceChannel({
 		channelId: interaction.member.voice.channel.id,
 		guildId: interaction.channel.guild.id,
 		adapterCreator: interaction.channel.guild.voiceAdapterCreator,
 	});
-	console.log(connection.joinConfig)
 	player.stop(true)
 	var audioResource = createAudioResource('/home/pi/gitrepo/discord-bot/out.mp3')
 	player.play(audioResource)
 	connection.subscribe(player)
-	await interaction.reply({ content:'rickrolling'})
+	await interaction.reply({content:'rickrolling',ephemeral: true})
 	player.on(AudioPlayerStatus.Idle, () => {
 		connection.destroy()
 	});

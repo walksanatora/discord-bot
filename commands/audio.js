@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { joinVoiceChannel, createAudioResource, createAudioPlayer, NoSubscriberBehavior, AudioPlayerStatus } = require('@discordjs/voice');
+const fs = require('fs')
 
 const player = createAudioPlayer({
 	behaviors: {
@@ -7,10 +8,27 @@ const player = createAudioPlayer({
 	},
 });
 
-const data = new SlashCommandBuilder()
-	.setName('rickroll')
-	.setDescription('kills your sanity')
+const audio = []
+const caudio = []
 
+files = fs.readdirSync('./audio')
+files.forEach(element => {
+	var t = [element,element]
+	caudio.push(t)
+	audio.push(element)
+})
+
+
+console.log('generated audio ',audio)
+
+const data = new SlashCommandBuilder()
+	.setName('audio')
+	.setDescription('kills your sanity')
+	.addStringOption((opt)=>
+		opt.setName('file')
+		.setDescription('the audio file to play')
+		.addChoices(caudio)
+	)
 async function func(interaction,client){
 	if (interaction.member.voice.channel.id == null){await interaction.reply({content:'join a vc',ephemeral: true}); return} 
 	var connection = joinVoiceChannel({
@@ -19,10 +37,12 @@ async function func(interaction,client){
 		adapterCreator: interaction.channel.guild.voiceAdapterCreator,
 	});
 	player.stop(true)
-	var audioResource = createAudioResource('/home/pi/gitrepo/discord-bot/out.mp3')
+	var afile = interaction.options.getString('file')
+	if(afile == null) {audio[Math.floor(Math.random()*audio.length)]}
+	var audioResource = createAudioResource(`./audio/${afile}`)
 	player.play(audioResource)
 	connection.subscribe(player)
-	await interaction.reply({content:'rickrolling',ephemeral: true})
+	await interaction.reply({content:afile,ephemeral: true})
 	player.on(AudioPlayerStatus.Idle, () => {
 		connection.destroy()
 	});

@@ -8,7 +8,7 @@ const player = createAudioPlayer({
 });
 
 const data = new SlashCommandBuilder()
-	.setName('RickRoll')
+	.setName('rickroll')
 	.setDescription('kills your sanity')
 
 async function func(interaction,client){

@@ -1,7 +1,7 @@
 require('dotenv').config()
 const discord = require('discord.js')
 const { codeBlock } = require('@discordjs/builders');
-const client = new discord.Client({intents: [discord.Intents.FLAGS.GUILD_MESSAGES,discord.Intents.FLAGS.GUILDS,Intents.FLAGS.GUILD_VOICE_STATES]});
+const client = new discord.Client({intents: [discord.Intents.FLAGS.GUILD_MESSAGES,discord.Intents.FLAGS.GUILDS,discord.Intents.FLAGS.GUILD_VOICE_STATES]});
 const fs = require('fs');
 const wittyPresences = [
 	'The senate shall decide your fate!',

@@ -7,8 +7,6 @@ const player = createAudioPlayer({
 	},
 });
 
-const audioResource = createAudioResource('/home/pi/gitrepo/discord-bot/out.mp3')
-
 const data = new SlashCommandBuilder()
 	.setName('rickroll')
 	.setDescription('kills your sanity')
@@ -22,6 +20,7 @@ async function func(interaction,client){
 	});
 	console.log(connection.joinConfig)
 	player.stop(true)
+	var audioResource = createAudioResource('/home/pi/gitrepo/discord-bot/out.mp3')
 	player.play(audioResource)
 	connection.subscribe(player)
 	setTimeout(() => player.unpause(), 5_000)

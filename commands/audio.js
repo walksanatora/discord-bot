@@ -44,7 +44,10 @@ async function func(interaction,client){
 	connection.subscribe(player)
 	await interaction.reply({content:afile,ephemeral: true})
 	player.on(AudioPlayerStatus.Idle, () => {
-		try {connection.destroy()}
+		try {
+			connection.destroy()
+			connection = undefined
+		}
 		catch(err){}
 	});
 	

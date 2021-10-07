@@ -43,9 +43,9 @@ async function func(interaction,client){
 	player.play(audioResource)
 	connection.subscribe(player)
 	await interaction.reply({content:afile,ephemeral: true})
-	player.removeAllListeners()
 	player.on(AudioPlayerStatus.Idle, () => {
-		connection.destroy()
+		try {connection.destroy()}
+		catch(err){}
 	});
 	
 }

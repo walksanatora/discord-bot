@@ -1,6 +1,7 @@
 const { SlashCommandBuilder,codeBlock } = require('@discordjs/builders');
 const discord = require('discord.js')
 const os = require('os')
+const {execSync} = require('child_process')
 
 //utility function for converting bytes to a human-readable format
 function formatBytes(a,b=2,k=1024){with(Math){let d=floor(log(a)/log(k));return 0==a?"0 Bytes":parseFloat((a/pow(k,d)).toFixed(max(0,b)))+" "+["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"][d]}}
@@ -13,7 +14,7 @@ async function func(interaction,client) {
 	ramUsage = require('../tmp.js')
 	stats = ''
 	versions = ''
-	stats = stats + `Arch:       ${os.arch().toString()}\n`
+	stats = stats + `Arch:       ${execSync('arch').toString()}\n`
 	stats = stats + `Ram Usage:  ${formatBytes(ramUsage.used) + '/' + formatBytes(ramUsage.total)}\n`
 	stats = stats + `Bot Uptime: ${ new Date(client.uptime).toISOString().substr(11, 8)}\n`
 	stats = stats + `OS:         ${os.type() +' '+ os.release()}`

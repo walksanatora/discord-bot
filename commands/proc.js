@@ -14,7 +14,7 @@ async function func(interaction,client) {
 	ramUsage = require('../tmp.js')
 	stats = ''
 	versions = ''
-	stats = stats + `Arch:       ${execSync('arch').toString()}\n`
+	stats = stats + `Arch:       ${execSync('arch').toString()}`
 	stats = stats + `Ram Usage:  ${formatBytes(ramUsage.used) + '/' + formatBytes(ramUsage.total)}\n`
 	stats = stats + `Bot Uptime: ${ new Date(client.uptime).toISOString().substr(11, 8)}\n`
 	stats = stats + `OS:         ${os.type() +' '+ os.release()}`
